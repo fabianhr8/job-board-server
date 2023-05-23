@@ -2,8 +2,17 @@ type Query {
   jobs: [Job!]
 }
 
+type Company {
+  id: ID!
+  name: String!
+  description: String
+}
+
 type Job {
   id: ID!
+  """Used ISO-8601 format. Example: `2023-05-22`"""
+  company: Company!
+  date: String!
   title: String!
   description: String
 }
