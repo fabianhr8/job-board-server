@@ -3,12 +3,13 @@ import { getCompany } from './db/companies.js';
 
 export const resolvers = {
   Query: {
+    company: (_root, { id }) => getCompany(id),
     job: (_root, { id }) => getJob(id),
     jobs: async () => await getJobs()
   },
   Job: {
-    date: async (job) => toISOString(job.createdAt),
-    company: (job) => getCompany(job.companyId)
+    company: (job) => getCompany(job.companyId),
+    date: async (job) => toISOString(job.createdAt)
   },
 };
 
