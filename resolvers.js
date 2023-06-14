@@ -1,5 +1,5 @@
 import { GraphQLError } from 'graphql';
-import { getJob, getJobsByCompany, getJobs } from './db/jobs.js';
+import { createJob, getJob, getJobsByCompany, getJobs } from './db/jobs.js';
 import { getCompany } from './db/companies.js';
 
 export const resolvers = {
@@ -15,6 +15,12 @@ export const resolvers = {
       return job
     },
     jobs: async () => await getJobs()
+  },
+  Mutation: {
+    createJob: (_root, { title, description }) => {
+      const companyId = 'FjcJCHJALA4i' // TODO: change to dynamic
+      return createJob({ companyId, title, description});
+    }
   },
   Company: {
     jobs: (company) => getJobsByCompany(company.id)
