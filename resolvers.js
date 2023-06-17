@@ -1,5 +1,12 @@
 import { GraphQLError } from 'graphql';
-import { createJob, getJob, getJobsByCompany, getJobs } from './db/jobs.js';
+import {
+  createJob,
+  getJob,
+  getJobsByCompany,
+  getJobs,
+  updateJob,
+  deleteJob
+} from './db/jobs.js';
 import { getCompany } from './db/companies.js';
 
 export const resolvers = {
@@ -20,7 +27,11 @@ export const resolvers = {
     createJob: (_root, { input: { title, description} }) => {
       const companyId = 'FjcJCHJALA4i' // TODO: change to dynamic
       return createJob({ companyId, title, description});
-    }
+    },
+    updateJob: (_root, { input: { id, title, description} }) => {
+      return updateJob({ id, title, description});
+    },
+    deleteJob: (_root, { id }) => deleteJob(id),
   },
   Company: {
     jobs: (company) => getJobsByCompany(company.id)
