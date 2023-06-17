@@ -17,7 +17,7 @@ export const resolvers = {
     jobs: async () => await getJobs()
   },
   Mutation: {
-    createJob: (_root, { title, description }) => {
+    createJob: (_root, { input: { title, description} }) => {
       const companyId = 'FjcJCHJALA4i' // TODO: change to dynamic
       return createJob({ companyId, title, description});
     }
