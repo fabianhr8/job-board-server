@@ -24,10 +24,9 @@ export const resolvers = {
     jobs: async () => await getJobs()
   },
   Mutation: {
-    createJob: (_root, { input: { title, description} }, { auth }) => {
-      if (!auth) throw unauthorizedError('Missing authentication')
-      const companyId = 'FjcJCHJALA4i' // TODO: change to dynamic
-      return createJob({ companyId, title, description});
+    createJob: (_root, { input: { title, description} }, { user }) => {
+      if (!user) throw unauthorizedError('Missing authentication')
+      return createJob({ companyId: user.companyId, title, description});
     },
     updateJob: (_root, { input: { id, title, description} }) => {
       return updateJob({ id, title, description});
