@@ -24,7 +24,8 @@ export const resolvers = {
     jobs: async () => await getJobs()
   },
   Mutation: {
-    createJob: (_root, { input: { title, description} }) => {
+    createJob: (_root, { input: { title, description} }, { auth }) => {
+      if (!auth) throw unauthorizedError('Missing authentication')
       const companyId = 'FjcJCHJALA4i' // TODO: change to dynamic
       return createJob({ companyId, title, description});
     },
@@ -47,6 +48,15 @@ const notFoundError = (message) => {
     message,
     {
       extensions: { code: 'NOT_FOUND' }
+    }
+  )
+}
+
+const unauthorizedError = (message) => {
+  return new GraphQLError(
+    message,
+    {
+      extensions: { code: 'UNAUTHORIZED ' }
     }
   )
 }
