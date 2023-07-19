@@ -5,7 +5,8 @@ import {
   getJobsByCompany,
   getJobs,
   updateJob,
-  deleteJob
+  deleteJob,
+  countJobs
 } from './db/jobs.js';
 import { getCompany } from './db/companies.js';
 
@@ -21,7 +22,15 @@ export const resolvers = {
       if (!job) throw notFoundError('No job found with ID ' + id)
       return job
     },
-    jobs: async (_root, { limit, offset }) => await getJobs(limit, offset)
+    jobs: async (_root, { limit, offset }) => {
+      const items = await getJobs(limit, offset);
+      const totalCount = await countJobs();
+      return {
+        items,
+        totalCount
+      }
+
+    }
   },
   Mutation: {
     createJob: (_root, { input: { title, description} }, { user }) => {
