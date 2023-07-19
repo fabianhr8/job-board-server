@@ -21,7 +21,7 @@ export const resolvers = {
       if (!job) throw notFoundError('No job found with ID ' + id)
       return job
     },
-    jobs: async () => await getJobs()
+    jobs: async (_root, { limit, offset }) => await getJobs(limit, offset)
   },
   Mutation: {
     createJob: (_root, { input: { title, description} }, { user }) => {
